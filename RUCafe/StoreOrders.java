@@ -1,7 +1,8 @@
+package RUCafe;
 
 public class StoreOrders implements Customizable{
 
-    private Order[] orderList = new Order[]; //order list..not sure if it is suppose to be a order object.
+    private Order[] orderList; //order list..not sure if it is suppose to be a order object.
 
     @Override
     public boolean add(Object obj) {
@@ -13,4 +14,3 @@ public class StoreOrders implements Customizable{
         return false;
     }
 }
-

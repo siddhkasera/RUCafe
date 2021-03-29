@@ -1,4 +1,5 @@
-import java.awt.*;
+package RUCafe;
+
 
 public class MenuItem {
     private String menuItem;
@@ -15,7 +16,7 @@ public class MenuItem {
     }
 
     public String getItem(){
-       return this.menuItem;
+        return this.menuItem;
     }
     public void setNumber(String number){
         this.number = number;
