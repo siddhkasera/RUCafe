@@ -6,13 +6,10 @@ public class MenuItem {
     private String number;
 
     public MenuItem(String menuItem){
-
         this.menuItem = menuItem;
-
     }
 
     public MenuItem() {
-
     }
 
     public String getItem(){
