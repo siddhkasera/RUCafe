@@ -6,7 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.imageio.IIOParam;
 
 /**
  * This class processes the GUI from the payroll_processing_gui.fxml in order to
@@ -19,29 +22,32 @@ public class ControllerMainMenu {
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     Stage stage = new Stage();
 
+
     public void customerOrderPage(MouseEvent mouseEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("currentOrder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("currentOrder.fxml"));
             stage.setTitle("Your Order");
-            stage.setScene(new Scene(root, 650, 420));
+            stage.setScene(new Scene(loader.load(), 650, 420));
             stage.show();
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
             errorAlert.setContentText("Your order page cannot load. Try again.");
+            System.out.println(e.getLocalizedMessage());
             errorAlert.show();
         }
     }
 
     public void storeOrdersPage(MouseEvent mouseEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("storeOrders.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("storeOrders.fxml"));
             stage.setTitle("Store Orders");
-            stage.setScene(new Scene(root, 650, 420));
+            stage.setScene(new Scene(loader.load(), 650, 420));
             stage.show();
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
+            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Store orders page cannot load. Try again.");
             errorAlert.show();
         }
@@ -49,13 +55,14 @@ public class ControllerMainMenu {
 
     public void orderCoffeePage(MouseEvent mouseEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("orderCoffee.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("orderCoffee.fxml"));
             stage.setTitle("Order Coffee");
-            stage.setScene(new Scene(root, 650, 420));
+            stage.setScene(new Scene(loader.load(), 650, 420));
             stage.show();
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
+            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Order Coffees page cannot load. Try again.");
             errorAlert.show();
         }
@@ -63,17 +70,29 @@ public class ControllerMainMenu {
 
     public void orderDonutPage(MouseEvent mouseEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("orderDonut.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("orderDonut.fxml"));
             stage.setTitle("Order Donut");
-            stage.setScene(new Scene(root, 650, 420));
+            stage.setScene(new Scene(loader.load(),650, 420));
             stage.show();
+
+            ControllerOrderDonut donutController = loader.getController();
+            donutController.setMainController(this);
+
+
+
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
             errorAlert.setContentText("Order Donuts page cannot load. Try again.");
             errorAlert.show();
         }
+
     }
+
+
+
+
+    
 
 
 }
