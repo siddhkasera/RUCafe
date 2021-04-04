@@ -3,24 +3,34 @@ package RUCafe;
 import java.util.ArrayList;
 
 public class Order implements Customizable {
-    private int orderCount;
-    //private static final int CAPACITY = 4;
-    //private MenuItem [] orderList;
-    //list of menu items added.
-    //private static int orderNumber = 10000;
+    //private final Object items;
+    public static int orderCount = 1;
+    private int orderNumber;
     public static String orderNum;
-    //MenuItem menuitem = new MenuItem();
+    private double totalPrice;
     ArrayList<MenuItem> orderlist = new ArrayList<MenuItem>();  //list -->list should be an instance of object order.
 
-    public Order(String orderNum){
+    //coffee.setNumber(a_ordernumber)
+/*
+    public Order(ArrayList<MenuItem> orderlist ){
         //orderNumber = orderNumber++;
         //orderNum = String.valueOf(orderNumber);
-        this.orderNum = orderNum;
-
+        this.orderlist = orderlist;
+        //this.orderNum = orderNum;
 
     }
-
-
+*/
+    public static void increment(){
+        orderCount++;
+    }
+    public static int getCounter(){
+        return orderCount;
+    }
+    public Order(ArrayList<MenuItem> orderList){
+        this.orderlist = orderList;
+        this.orderNumber = orderCount;
+        this.totalPrice = 0;
+    }
 
     @Override
     public boolean add(Object obj) {
@@ -40,5 +50,9 @@ public class Order implements Customizable {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<MenuItem> getList() {
+        return this.orderlist;
     }
 }

@@ -6,7 +6,7 @@ public class StoreOrders implements Customizable{
 
     ArrayList<Order> listOfOrders = new ArrayList<Order>();
 
-
+    //Store  --> 10001, 10002, 10004
     @Override
     public boolean add(Object obj) {
         if(obj instanceof Order){

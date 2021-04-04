@@ -13,9 +13,11 @@ public class MenuItem {
     }
 
     public String getItem(){
+
         return this.menuItem;
     }
     public void setNumber(String number){
+
         this.number = number;
     }
 

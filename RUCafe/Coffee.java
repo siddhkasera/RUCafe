@@ -2,7 +2,7 @@ package RUCafe;
 
 import java.util.ArrayList;
 
-import static RUCafe.Coffee.Addins.*;
+import static RUCafe.Addins.*;
 
 public class Coffee extends MenuItem implements Customizable{
 
@@ -22,9 +22,7 @@ public class Coffee extends MenuItem implements Customizable{
    // private final double sizeCost = 0.50;
     private ArrayList<String> addInsList = new ArrayList<String>();
 
-    enum Addins{
-        CREAM, SYRUP, MILK, CARAMEL, WHIPPED_CREAM
-    }
+
     Addins addIn;
 
     //
