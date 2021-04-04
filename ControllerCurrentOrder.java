@@ -5,13 +5,11 @@ import RUCafe.Order;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.Initializable;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
-
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
@@ -25,12 +23,15 @@ import javafx.scene.control.ListView;
 public class ControllerCurrentOrder implements Initializable{
 
     Order orderList;
+    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 
     protected ControllerMainMenu mainController;
-    ObservableList<MenuItem> items = FXCollections.observableArrayList(orderList.getList());
+
 
     @FXML
-    protected ListView<MenuItem> orderListView = new ListView<MenuItem>();
+    protected ListView<String> orderListView = new ListView<String>();
+
+
 
     //setMainController
     //pass items from the order
@@ -40,9 +41,19 @@ public class ControllerCurrentOrder implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        for (int i = 0; i < orderList.getList().size(); i++) {
-            orderListView.setItems(items);
+        try {
+            ObservableList<String> items = FXCollections.observableArrayList(orderList.getList().toString());
+            for (int i = 0; i < orderList.getList().size(); i++) {
+                orderListView.setItems(items);
+            }
         }
+
+          catch (NullPointerException e) {
+              errorAlert.setHeaderText("No items in your order");
+              errorAlert.setContentText("Please add items to your order.");
+              errorAlert.show();
+            }
+
     }
 
     public void removeItem(MouseEvent mouseEvent) {
@@ -62,12 +73,8 @@ public class ControllerCurrentOrder implements Initializable{
 
     }
 
-
-
     //initialize method
         //assign list view items in setMainController
         //then call ListView in initialize
-
-
 
 }
