@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,21 +22,19 @@ import java.util.ResourceBundle;
 public class ControllerOrderDonut implements Initializable {
 
     //display the subtotal dynamically
-    //need a listener for each button
 
+    //add listeners for each button and adding the price into the subtotal
 
-    protected ArrayList<MenuItem> donutList;
-    protected Order orderList;
-    private ControllerMainMenu controllerMainMenu;
+    protected Order addToOrder;
+    protected static ControllerMainMenu mainController;
 
-
-    public void setMainController(ControllerMainMenu mainMenuController) {
-       controllerMainMenu = mainMenuController;
-    }
     @FXML
     protected ComboBox<String> donutType;
 
     protected ObservableList<String> donutTypeList = FXCollections.observableArrayList("Yeast", "Cake", "Donut Hole");
+
+    //when user clicks on type --> show the price in subtotal
+
 
     ObservableList<String> flavors = FXCollections.observableArrayList(
             "Chocolate", "Vanilla", "Strawberry", "Sugar Glazed");
@@ -50,21 +47,31 @@ public class ControllerOrderDonut implements Initializable {
     @FXML
     protected ListView<String> selectedFlavorListView = new ListView<>(selectedFlavor);
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         donutType.setItems(donutTypeList);
         flavorsListView.setItems(flavors);
 
+        //donutType.valueProperty().addListener();
+
+    }
+
+
+    public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
+
+        //when setting a donut order, needing the instance to go into main controller
+
+        mainController = controller;
+
+
     }
 
     //set number for the donut
-
     public void orderDonut(MouseEvent mouseEvent) {
-        //donutList.add()
-    }
 
-    public ArrayList<MenuItem> getList() {
-        return donutList;
+
+
     }
 
     public void addFlavorOnList(MouseEvent mouseEvent) {
@@ -74,6 +81,4 @@ public class ControllerOrderDonut implements Initializable {
     public void removeFlavorOnList(MouseEvent mouseEvent) {
         selectedFlavorListView.getItems().remove(selectedFlavorListView.getSelectionModel().getSelectedItems());
     }
-
-
 }

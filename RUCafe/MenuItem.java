@@ -3,7 +3,7 @@ package RUCafe;
 
 public class MenuItem {
     private String menuItem;
-    private String number;
+    private int number;
 
     public MenuItem(String menuItem){
         this.menuItem = menuItem;
@@ -13,18 +13,23 @@ public class MenuItem {
     }
 
     public String getItem(){
-
         return this.menuItem;
     }
-    public void setNumber(String number){
 
+    public void setNumber(int number){
         this.number = number;
     }
 
+    public void setPrice(double price) {
 
+    }
 
     public void itemPrice(){
 
+    }
+    @Override
+    public String toString(){
+        return this.menuItem;
     }
 
 }
