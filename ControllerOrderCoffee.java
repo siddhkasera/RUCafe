@@ -39,11 +39,6 @@ public class ControllerOrderCoffee implements Initializable {
     private final double addInCost = 0.20;
 
     DecimalFormat df = new DecimalFormat("0.00"); //look at format
-
-
-    //how are we keeping track of the order number?
-
-
     @FXML
     protected ComboBox<String> size;
 
@@ -104,6 +99,41 @@ public class ControllerOrderCoffee implements Initializable {
 
         }
 
+    }
+
+    public void qtyAction(ActionEvent actionEvent) {
+
+        try {
+            for (int i = 1; i <= quantity.getVisibleRowCount(); i++) {
+                if (quantity.getValue().equals(i)) {
+                    if (size.getValue().equals("Short")) {
+                        currentTotal = shortPrice * i;
+                        subtotalField.setText(df.format(currentTotal));
+
+                    } else if (size.getValue().equals("Tall")) {
+                        //System.out.println("Inside tall");
+                        currentTotal = tallPrice * i;
+                        subtotalField.setText(df.format(currentTotal));
+
+                    } else if (size.getValue().equals("Grande")) {
+                        currentTotal = grandePrice * i;
+                        subtotalField.setText(df.format(currentTotal));
+
+                    } else if (size.getValue().equals("Venti")) {
+                        currentTotal = ventiPrice * i;
+                        subtotalField.setText(df.format(currentTotal));
+
+                    }
+                    subtotalField.setText(df.format(currentTotal));
+                }
+            }
+        }
+        catch (NullPointerException e) {
+            errorAlert.setHeaderText("Choose a size");
+            errorAlert.setContentText("Please choose a size for your order.");
+            System.out.println(e.getMessage());
+            errorAlert.show();
+        }
     }
 
     @Override
@@ -211,6 +241,7 @@ public class ControllerOrderCoffee implements Initializable {
 
 
     }
+
 
 
 }
