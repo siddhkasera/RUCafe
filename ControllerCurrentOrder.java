@@ -1,5 +1,6 @@
 package RUCafeApp;
 
+import RUCafe.Coffee;
 import RUCafe.MenuItem;
 import RUCafe.Order;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +23,8 @@ import javafx.scene.control.ListView;
  **/
 public class ControllerCurrentOrder implements Initializable{
 
-    Order orderList;
+    Order orderList = new Order();
+    Coffee addInsList = new Coffee();
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 
     protected ControllerMainMenu mainController;
@@ -42,9 +44,16 @@ public class ControllerCurrentOrder implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            ObservableList<String> items = FXCollections.observableArrayList(orderList.getList().toString());
+
+            System.out.println(orderList.getList());
+            System.out.println(addInsList.getList());
+
+            ObservableList<String> menuItems = FXCollections.observableArrayList(orderList.getList());
+            ObservableList<String> addInItems = FXCollections.observableArrayList(addInsList.getList());
+
             for (int i = 0; i < orderList.getList().size(); i++) {
-                orderListView.setItems(items);
+                orderListView.setItems(menuItems);
+                orderListView.setItems(addInItems);
             }
         }
 

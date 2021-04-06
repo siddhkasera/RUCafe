@@ -2,8 +2,6 @@ package RUCafe;
 
 import java.util.ArrayList;
 
-import static RUCafe.Addins.*;
-
 public class Coffee extends MenuItem implements Customizable{
 
     private String size;
@@ -26,6 +24,10 @@ public class Coffee extends MenuItem implements Customizable{
 
     //public Coffee(String size, String cream, String syrup, String milk, String caramel, String whippedCream ){
 
+    public Coffee() {
+
+    }
+
     public Coffee(String size, Addins addIn){
         super();
         this.size = size;
@@ -43,14 +45,38 @@ public class Coffee extends MenuItem implements Customizable{
         this.qty = qty;
     }
 
-    public Coffee(int numAddOn){
-        super();
+   /* public Coffee(int numAddOn){
         this.numAddOn = numAddOn;
     }
+
+    */
+
+    public Coffee(String size, int qty) {
+        super("Coffee");
+        this.size = size;
+        this.qty = qty;
+    }
+
+    public void setNumAddOn(int numAddOn) {
+        this.numAddOn = numAddOn;
+    }
+
 
     public String getSize(){
         return this.size;
     }
+
+    public ArrayList<String> getList(){
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i = 0; i < addInsList.size(); i++) {
+            list.add(addInsList.get(i));
+
+        }
+
+        return list;
+    }
+
 
     public void itemPrice(){
 
@@ -70,7 +96,7 @@ public class Coffee extends MenuItem implements Customizable{
 
     @Override
     public boolean add(Object obj) {
-        if (obj instanceof Addins){
+        if (obj instanceof String){
             addInsList.add((String) obj);
             numAddOn++;
         }
@@ -79,7 +105,7 @@ public class Coffee extends MenuItem implements Customizable{
 
     @Override
     public boolean remove(Object obj) {
-        if (obj instanceof Addins){
+        if (obj instanceof String){
             addInsList.remove((String) obj);
             numAddOn--;
         }

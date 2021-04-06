@@ -7,15 +7,14 @@ import RUCafe.Order;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
-import java.awt.*;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,22 +25,32 @@ import java.util.ResourceBundle;
  *
  * @author Siddhi Kasera, Sonal Madhok
  **/
-public class ControllerOrderCoffee implements Initializable {
+public class ControllerOrderCoffee implements Initializable  {
 
 
     //protected ArrayList<MenuItem> partialCoffeeOrder = new ArrayList<MenuItem>();
-    protected ArrayList<MenuItem> orderList = new ArrayList<MenuItem>();
+    protected ArrayList<MenuItem> coffeeOrderList = new ArrayList<MenuItem>();
     protected Coffee coffee;
     protected Order addToOrder;
     protected int numOfAddin;
+    protected double currentTotal = 0.00;
+    protected double addInCost;
+
+
+    //how are we keeping track of the order number?
+
 
 
     @FXML
     protected ComboBox<String> size;
 
+    protected String getSize;
+
     @FXML
     protected ComboBox<Integer> quantity;
+
     protected ObservableList<String> sizeList = FXCollections.observableArrayList("Short", "Tall", "Grande", "Venti");
+
     protected ObservableList<Integer> qtyList = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9,10);
 
     @FXML
@@ -62,92 +71,184 @@ public class ControllerOrderCoffee implements Initializable {
     @FXML
     private TextField subtotalField;
 
+    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+
+    /*
+    @FXML
+    private void handleCreamAddinAction() {
+        if (creamAddin.isSelected()) {
+            currentTotal += addInCost;
+        }
+        else {
+            currentTotal -= addInCost;
+        }
+    }
+
+
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         size.setItems(sizeList);
         quantity.setItems(qtyList);
+        DecimalFormat df = new DecimalFormat("0.00"); //look at format
 
-        /*
-        creamAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
-            //subtotalField.setText();
-        });
+
+        //add listeners for each button and adding the price into the subtotal
+
+        //listener for size
+        /*if (size.getSelectionModel().getSelectedItem() == sizeList.get(0)) { //short
+            subtotalField.clear();
+            currentTotal += 1.99;
+            subtotalField.setText(df.format(currentTotal));
+        }
+        else if (size.getSelectionModel().getSelectedItem() == sizeList.get(1)) { //tall
+            subtotalField.clear();
+            currentTotal += 2.49;
+            subtotalField.setText(df.format(currentTotal));
+        }
+        else if (size.getSelectionModel().getSelectedItem() == sizeList.get(2)) { //venti
+            subtotalField.clear();
+            currentTotal += 2.99;
+            subtotalField.setText(df.format(currentTotal));
+        }
+        else if (size.getSelectionModel().getSelectedItem() == sizeList.get(3)) { //grande
+            subtotalField.clear();
+            currentTotal += 3.49;
+            subtotalField.setText(df.format(currentTotal));
+        }
 
          */
 
+        //listeners for Addins
+
+
+        //cream
+        creamAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+
+           // if (creamAddin.isSelected()) {
+                currentTotal += addInCost;
+          //  }
+           // else {
+            //    currentTotal -= addInCost;
+         //   }
+            subtotalField.setText(Double.toString(currentTotal));
+        });
+
+        //milk
+        milkAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> { //cream
+
+            if (new_val) {
+                currentTotal += addInCost;
+            }
+            else {
+                currentTotal -= addInCost;
+            }
+            subtotalField.setText(df.format(currentTotal));
+        });
+
+        //caramel
+        caramelAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> { //cream
+
+            if (new_val) {
+                currentTotal += addInCost;
+            }
+            else {
+                currentTotal -= addInCost;
+            }
+            subtotalField.setText(df.format(currentTotal));
+        });
+
+        //syrup
+        syrupAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> { //cream
+
+            if (new_val) {
+                currentTotal += addInCost;
+            }
+            else {
+                currentTotal -= addInCost;
+            }
+            subtotalField.setText(df.format(currentTotal));
+        });
+
+        //whipped cream
+        whippedCreamAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> { //cream
+
+            if (new_val) {
+                currentTotal += addInCost;
+            }
+            else {
+                currentTotal -= addInCost;
+            }
+            subtotalField.setText(df.format(currentTotal));
+        });
 
 
     }
 
-    //add listeners for each button and adding the price into the subtotal
-
-
     public void orderCoffee(MouseEvent mouseEvent) {
-        List<Addins> checkedList = new ArrayList<>();
 
-        List<String> checkedList2 = new ArrayList<>();
+        //try {
 
-        if (creamAddin.isSelected()){
-            checkedList.add(Addins.CREAM);
-            checkedList2.add("Cream");
-        }
-        else {
-            checkedList.add(null);
-            checkedList2.add(null);
+            Coffee coffeeOrder = new Coffee(size.getSelectionModel().getSelectedItem(), quantity.getValue());
 
-        }
-        if (milkAddin.isSelected()) {
-            checkedList.add(Addins.MILK);
-            checkedList2.add("Milk");
+            System.out.println(size.getSelectionModel().getSelectedItem());
+            System.out.println(quantity.getValue());
 
-        }
-        else {
-            checkedList.add(null);
-            checkedList2.add(null);
-        }
-        if (caramelAddin.isSelected()){
-            checkedList.add(Addins.CARAMEL);
-            checkedList2.add("Caramel");
-
-        }
-        else {
-            checkedList.add(null);
-            checkedList2.add(null);
-        }
-        if (whippedCreamAddin.isSelected()){
-            checkedList.add(Addins.WHIPPED_CREAM);
-            checkedList2.add("Whipped Cream");
-        }
-        else {
-            checkedList.add(null);
-            checkedList2.add(null);
-        }
-        if (syrupAddin.isSelected()){
-            checkedList.add(Addins.SYRUP);
-            checkedList2.add("Syrup");
-
-        }
-        else {
-            checkedList.add(null);
-            checkedList2.add(null);
-        }
-
-        //gets the number of addIns by checking which ones weren't null in the list
-        for (int i = 0; i <= 5; i++) {
-            if (checkedList2.get(i) != null) {
-                numOfAddin++;
+            if (creamAddin.isSelected()) {
+                coffeeOrder.add("Cream");
             }
-        }
-
-        //create order of coffee
-        Coffee orderCoffee = new Coffee(size.getValue(), checkedList2.get(0), checkedList2.get(1), checkedList2.get(2), checkedList2.get(3), checkedList2.get(4), quantity.getValue());
-        Coffee numAddins = new Coffee(numOfAddin);
-        orderList = addToOrder.getList(); //seeing what is inside of the list
-        addToOrder.add(orderCoffee); //adding the coffee to the orderList in Order
-
-        if (quantity.getValue() > 1) {
-            for (int i = 0; i <= quantity.getValue(); i++) {
-                addToOrder.add(orderCoffee);
+            if (milkAddin.isSelected()) {
+                coffeeOrder.add("Milk");
             }
+            if (caramelAddin.isSelected()) {
+                coffeeOrder.add("Caramel");
+            }
+            if (whippedCreamAddin.isSelected()) {
+                coffeeOrder.add("Whipped Cream");
+            }
+            if (syrupAddin.isSelected()) {
+                coffeeOrder.add("Syrup");
+            }
+
+            System.out.println(coffeeOrder.getList());
+
+            coffeeOrder.setNumAddOn(numOfAddin);
+
+            Order order = new Order(coffeeOrder);
+            order.add(coffeeOrder);
+            System.out.println(order.getList());
+
+            //coffeeOrderList.add(coffeeOrder);
+            //order.setList(coffeeOrderList);
+
+            //coffeeOrderList = order.getList();
+
+            //order.setList(coffeeOrderList);
+
+            //addToOrder = new Order(coffeeOrder);
+           // addToOrder.add(coffeeOrder); //adding the coffee to the orderList in Order
+
+            //orderCoffee.setNumber(addToOrder.getIncrement());
+
+            //System.out.println(addToOrder.getList().toString());
+
+            if (quantity.getValue() > 1) {
+                for (int i = 0; i <= quantity.getValue(); i++) {
+                    order.add(coffeeOrder);
+                }
+            }
+        //}
+        /*
+        catch (NullPointerException e) {
+            errorAlert.setHeaderText("Error");
+            errorAlert.setContentText("Please check your order. Make sure everything is complete.");
+            System.out.println(e.getMessage());
+            errorAlert.show();
         }
+
+         */
+    }
+
+    public void handleCreamAddinAction(ActionEvent actionEvent) {
     }
 }
