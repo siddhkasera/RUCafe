@@ -62,8 +62,8 @@
             <CheckBox fx:id="whippedCreamAddin" layoutX="413.0" layoutY="248.0" mnemonicParsing="false" text="Whipped Cream" />
             <CheckBox fx:id="syrupAddin" layoutX="528.0" layoutY="166.0" mnemonicParsing="false" text="Syrup" />
             <CheckBox fx:id="caramelAddin" layoutX="528.0" layoutY="207.0" mnemonicParsing="false" text="Caramel" />
-            <ComboBox fx:id="size" layoutX="396.0" layoutY="110.0" prefHeight="25.0" prefWidth="87.0" promptText="Size" />
-            <ComboBox fx:id="quantity" layoutX="520.0" layoutY="110.0" prefHeight="25.0" prefWidth="87.0" promptText="Qty" />
+            <ComboBox fx:id="size" layoutX="396.0" layoutY="110.0" onAction="#sizeAction" prefHeight="25.0" prefWidth="87.0" promptText="Size" />
+            <ComboBox fx:id="quantity" layoutX="520.0" layoutY="110.0" onAction="#qtyAction" prefHeight="25.0" prefWidth="87.0" promptText="Qty" />
             <TextField fx:id="subtotalField" editable="false" layoutX="409.0" layoutY="309.0" prefHeight="25.0" prefWidth="87.0" promptText="Sub-total" />
             <Label layoutX="422.0" layoutY="290.0" text="Sub-total" />
          </children>
