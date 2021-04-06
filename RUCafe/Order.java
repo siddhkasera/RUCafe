@@ -15,68 +15,33 @@ public class Order implements Customizable {
     private Coffee coffee;
    private ArrayList<MenuItem> orderlist;
 
-     //list -->list should be an instance of object order.
-
-    /*
-    public Order(MenuItem item) {
-        this.item = item;
-    }
-    */
 
      public Order(ArrayList<MenuItem> orderlist){
         this.orderlist = orderlist;
         this.orderNumber = orderNumber;
         this.totalPrice = 0;
-
      }
-     /*
-    public Order() {
-
-    }
-    */
-
-    /* public Order (Coffee coffee) {
-        this.coffee = coffee;
-    }
-
-     */
-
-    /*public Order(ArrayList<MenuItem> orderList){
-        this.orderlist = orderList;
-        this.orderNumber = orderCount;
-        this.totalPrice = 0;
-    }
-
-     */
 
     public void setIncrement() {
-        orderCount++;
+        orderNumber++;
     }
-
     public int getOrderNumber() {
         return this.orderCount;
     }
-
+    public double getTotalPrice(){
+        return totalPrice;
+    }
+    public void setTotalPrice(double totalPrice){
+        this.totalPrice = totalPrice;
+    }
     public static int getCounter() {
         return orderCount;
     }
-
     public void setList(ArrayList<MenuItem> list){
         this.orderlist = new ArrayList<MenuItem>(list);
     }
 
 
-/*
-    @Override
-    public boolean add(Object obj) {
-        if (obj instanceof MenuItem) {
-            orderlist.add((MenuItem) obj);
-            //orderCount++;
-            return true;
-        }
-        return false;
-    }
-    */
 
     @Override
     public boolean add(Object obj) {
@@ -114,7 +79,7 @@ public class Order implements Customizable {
     }
     @Override
     public String toString(){
-        return "this order contains"+ this.orderlist;
+        return "this order contains"+ this.orderlist+ this.totalPrice;
     }
 
 }

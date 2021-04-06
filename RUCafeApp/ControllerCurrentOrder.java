@@ -7,14 +7,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import java.util.ArrayList;
-
+import javafx.scene.control.TextArea;
 
 /**
  * This class processes the GUI from the payroll_processing_gui.fxml in order to
@@ -30,18 +32,54 @@ public class ControllerCurrentOrder implements Initializable{
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 
     protected ControllerMainMenu mainController;
-
+    private ObservableList<String> listOfItem = FXCollections.observableArrayList();
 
     @FXML
-    protected ListView<String> orderListView = new ListView<String>();
+    private TextField subTotal;
+
+    @FXML
+    private TextField salesTax;
+
+    @FXML
+    private TextField total;
+
+    @FXML
+    private ListView<String> orderListView = new ListView<String>();
 
 
+    private void setText(){
+        double subtotal = mainController.getOrder().getTotalPrice();
+        //System.out.println("The price is "+ subTotal);
+        double tax = subtotal * 0.06625;
+        double totalPrice = subtotal + tax;
+        DecimalFormat decimalFormat = new DecimalFormat("###, ###, ##0.00");
+        salesTax.setText(decimalFormat.format(tax));
+        subTotal.setText(decimalFormat.format(subtotal));
+        total.setText(decimalFormat.format(totalPrice));
 
+    }
     //setMainController
     //pass items from the order
     //for list that goes through each item that goes through order array list and adds to observable list
     //after adding to observable list do listview.setitems()
+    public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
+        mainController = controller;
+        setText();
+        for(int i =0; i< mainController.getOrder().getItem().size(); i++){
+                listOfItem.add(mainController.getOrder().getItem().get(i).toString());
+                System.out.println(listOfItem);
+        }
 
+
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+       // for(int i =0; i< listOfItem.size(); i++) {
+            orderListView.setItems(listOfItem);
+
+        //System.out.println("Orderlistview is"+ orderListView);
+    }
+    /*
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -66,23 +104,16 @@ public class ControllerCurrentOrder implements Initializable{
         }
 
     }
-
+    */
     public void removeItem(MouseEvent mouseEvent) {
-
-        //remove from Order
         orderList.remove(orderListView.getSelectionModel().getSelectedItems());
-
     }
 
     public void placeOrder(MouseEvent mouseEvent) {
+        mainController.placeOrder();
     }
 
-    public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
-        mainController = controller;
-        // mainController.getOrder doesn't work
-        //set observable list to the correct values
 
-    }
 
     //initialize method
     //assign list view items in setMainController

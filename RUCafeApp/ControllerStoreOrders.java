@@ -24,13 +24,19 @@ public class ControllerStoreOrders implements Initializable {
     protected ComboBox<String> orderNumber;
     //Order newOrder = new Order();
     protected ObservableList<String> orderNumberList = FXCollections.observableArrayList();
-
+    protected ControllerMainMenu mainController;
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
         orderNumber.setItems(orderNumberList);
     }
 
-    public void cancelOrder(MouseEvent mouseEvent) {
+    public void setMainController(ControllerMainMenu controller) { //gets pointer to maincontroller in here
+        mainController = controller;
+
+    }
+
+        public void cancelOrder(MouseEvent mouseEvent) {
 
 
     }

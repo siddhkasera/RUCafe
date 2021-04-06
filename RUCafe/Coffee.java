@@ -53,17 +53,22 @@ public class Coffee extends MenuItem implements Customizable{
 
     */
 
-    public Coffee(String size, int qty, ArrayList<String> addInList) {
-        super("Coffee");
+    public Coffee(String size, int qty, ArrayList<String> addInList, int numAddOn) {
+        //super("Coffee");
+        super();
         this.size = size;
         this.qty = qty;
         this.addInsList = addInsList;
+        this.numAddOn = numAddOn;
     }
 
     public void setNumAddOn(int numAddOn) {
         this.numAddOn = numAddOn;
     }
 
+    public int getNumAddOn(){
+        return numAddOn;
+    }
 
     public String getSize(){
         return this.size;
@@ -84,18 +89,29 @@ public class Coffee extends MenuItem implements Customizable{
     public void itemPrice(){
 
         price = numAddOn * addInCost;
+        //System.out.println("Price in coffee is"+ price);
 
-        if(size.equals("short")){
-            price = price + shortPrice;// 1.99
-        }else if(size.equals("tall")){
-            price = price + tallPrice;
-        }else if(size.equals("grande")){
-            price = price + grandePrice;
-        }else if(size.equals("venti")){
-            price = price + ventiPrice;
+        if(size.equals("Short")){
+            price = (price + shortPrice) * qty;// 1.99
+        }else if(size.equals("Tall")){
+            //System.out.println("Inside tall");
+            price = (price + tallPrice) * qty;
+        }else if(size.equals("Grande")){
+           price = (price + grandePrice) * qty;
+        }else if(size.equals("Venti")){
+            price = (price + ventiPrice) * qty;
         }
+        System.out.println("Price in coffee is"+ price);
+
+
     }
 
+    public void setPrice(){
+        this.price = price;
+    }
+    public double getprice(){
+        return price;
+    }
 
     @Override
     public boolean add(Object obj) {
@@ -117,6 +133,6 @@ public class Coffee extends MenuItem implements Customizable{
 
     @Override
     public String toString(){
-      return ( "Coffee size is: "+ this.size + " with the quantity "+ this.qty + " with addins "+ this.addInsList);
+      return (  this.size + this.qty + this.addInsList);
     }
 }
