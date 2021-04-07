@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Order implements Customizable {
     //private final Object items;
-    protected static int orderCount = 1;
+    protected static int orderCount = 0;
     private int orderNumber;
     protected static String orderNum;
     private double totalPrice;
@@ -18,22 +18,29 @@ public class Order implements Customizable {
 
      public Order(ArrayList<MenuItem> orderlist){
         this.orderlist = orderlist;
-        this.orderNumber = orderNumber;
+        this.orderNumber = orderCount;
         this.totalPrice = 0;
      }
 
-    public void setIncrement() {
-        orderNumber++;
+    public static void setIncrement(){
+         orderCount++;
     }
+    public static int getOrderCount(){
+         return orderCount;
+    }
+
     public int getOrderNumber() {
-        return this.orderCount;
+        return this.orderNumber;
     }
+
+
     public double getTotalPrice(){
         return totalPrice;
     }
     public void setTotalPrice(double totalPrice){
         this.totalPrice = totalPrice;
     }
+
     public static int getCounter() {
         return orderCount;
     }
@@ -63,7 +70,7 @@ public class Order implements Customizable {
         return false;
     }
 
-    public ArrayList<MenuItem> getItem(){
+    public ArrayList<MenuItem> getItems(){
         return orderlist;
     }
     public ArrayList<String> getList() {
@@ -79,7 +86,22 @@ public class Order implements Customizable {
     }
     @Override
     public String toString(){
-        return "this order contains"+ this.orderlist+ this.totalPrice;
+        return "This order contains"+ "\n" +this.orderlist+ "\n" + this.totalPrice + "\n" + this.orderNumber;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MenuItem) {
+            MenuItem menuitem = (MenuItem) obj;
+            for(int i = 0; i<this.orderlist.size(); i++){
+            if (this.orderlist.get(i).equals(menuitem)) {
+                return true;
+            }
+            }
+        }
+        return false;
+    }
+
+
 
 }

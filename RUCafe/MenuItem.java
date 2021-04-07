@@ -35,5 +35,18 @@ public class MenuItem {
     public String toString(){
         return this.menuItem;
     }
+/*
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MenuItem) {
+            MenuItem menuitem = (MenuItem) obj;
+            if (this.menuItem.equals(menuitem.menuItem)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+ */
 
 }

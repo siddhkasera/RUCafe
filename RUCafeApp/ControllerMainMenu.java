@@ -39,7 +39,7 @@ public class ControllerMainMenu {
     }
 
     public void addMainOrder(Order menuItems){
-        for(MenuItem item: menuItems.getItem()){
+        for(MenuItem item: menuItems.getItems()){
             System.out.println("The item in add mainorder method is "+ item);
             order.add(item);
             if(item instanceof Coffee){
@@ -54,6 +54,15 @@ public class ControllerMainMenu {
 
     }
 
+    public void removeItemOrder(MenuItem menuItem){
+        for(int i =0; i<order.getItems().size();i++){
+            System.out.println("Order in removeitem in main " + order.getItems().toString());
+            if(order.equals(menuItem)){
+                System.out.println("If equals come in here");
+                order.remove(menuItem);
+            }
+        }
+    }
     public Order getOrder(){
         return order;
     }

@@ -3,6 +3,7 @@ package RUCafeApp;
 import RUCafe.Coffee;
 import RUCafe.MenuItem;
 import RUCafe.Order;
+import com.sun.javafx.scene.shape.ArcHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +27,7 @@ import javafx.scene.control.TextArea;
  **/
 public class ControllerCurrentOrder implements Initializable{
 
-    ArrayList<MenuItem> newList; //remove this later...added only to avoid momentary error
+    ArrayList<MenuItem> newList = new ArrayList<MenuItem>(); //remove this later...added only to avoid momentary error
     Order orderList = new Order(newList);
     Coffee addInsList = new Coffee();
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -65,10 +66,11 @@ public class ControllerCurrentOrder implements Initializable{
     public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
         mainController = controller;
         setText();
-        for(int i =0; i< mainController.getOrder().getItem().size(); i++){
+        for(int i =0; i< mainController.getOrder().getItems().size(); i++){
             orderList = mainController.getOrder();
             System.out.println("Only the order list in current order" + orderList);
-                listOfItem.add(mainController.getOrder().getItem().get(i).toString());
+                listOfItem.add(mainController.getOrder().getItems().get(i).toString());
+                newList.add(mainController.getOrder().getItems().get(i));
                 System.out.println(listOfItem);
         }
 
@@ -81,14 +83,23 @@ public class ControllerCurrentOrder implements Initializable{
 
     public void removeItem(MouseEvent mouseEvent) {
        // ObservableList<String> removeOrder = orderListView.getSelectionModel().getSelectedItems();
-        listOfItem.remove(orderListView.getSelectionModel().getSelectedItem());
-        //orderList.remove(orderListView.getSelectionModel().getSelectedItem());
+        listOfItem.remove(orderListView.getSelectionModel().getSelectedItem()); //removing the observable list
+        for(int i =0; i< newList.size();i++) {
+            if(newList.get(i).toString().equals(orderListView.getSelectionModel().getSelectedItem())) {
+                //mainController.removeItemOrder(orderListView.getSelectionModel().getSelectedItem());
+                mainController.removeItemOrder(newList.get(i));
+            }
+        }
         //System.out.println(orderListView.getSelectionModel().getSelectedItem().getClass());
+        //mainController.getOrder().remove(orderListView.getSelectionModel().getSelectedItem());
         System.out.println("After removing from orderlist"+ orderList);
-       // mainController.removeItem(orderListView.getSelectionModel().getSelectedItem());
+
+        // mainController.removeItem(orderListView.getSelectionModel().getSelectedItem());
         //orderList.remove(removeOrder);
         //listOfItem.remove(removeOrder);
+        System.out.println("lis tof item in current order" + listOfItem);
         orderListView.setItems(listOfItem);
+        System.out.println("OrderlistviewItems"+  orderListView.getItems());
         salesTax.clear();
         total.clear();
         subTotal.clear();
@@ -99,6 +110,12 @@ public class ControllerCurrentOrder implements Initializable{
 
     public void placeOrder(MouseEvent mouseEvent) {
         //System.out.println("When place order is triggered");
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setTitle("Confirm to place the order");
+        a.setAlertType(Alert.AlertType.CONFIRMATION);
+        a.setContentText("Do you want to place the order");
+        a.show();
+
         mainController.placeOrder();
         salesTax.clear();
         total.clear();

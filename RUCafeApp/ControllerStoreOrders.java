@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.scene.control.ComboBox;
 import javafx.collections.ObservableList;
@@ -55,12 +56,14 @@ public class ControllerStoreOrders implements Initializable {
 
     }
     public void showOrder(ActionEvent showOrder) {
+        DecimalFormat df = new DecimalFormat("0.00"); //look at format
 
         for(int i =0; i< mainController.getStoreOrder().getListOfOrders().size(); i++){
             if(orderNumber.getValue().equals(mainController.getStoreOrder().getListOfOrders().get(i).getOrderCount())){
                 selectedOrder.add(mainController.getStoreOrder().getListOfOrders().get(i).toString());
                 System.out.println("inside store controller"+ selectedOrder);
                 allOrders.setItems(selectedOrder);
+                totalAmt.setText(df.format(mainController.getStoreOrder().getListOfOrders().get(i).getTotalPrice()));
             }
             //System.out.println(orderNumberList);
         }
