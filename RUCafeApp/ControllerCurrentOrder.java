@@ -30,6 +30,9 @@ public class ControllerCurrentOrder implements Initializable{
     Order orderList = new Order(newList);
     Coffee addInsList = new Coffee();
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+    private double totalPrice;
+    private double subtotal;
+    private double tax;
 
     protected ControllerMainMenu mainController;
     private ObservableList<String> listOfItem = FXCollections.observableArrayList();
@@ -48,75 +51,62 @@ public class ControllerCurrentOrder implements Initializable{
 
 
     private void setText(){
-        double subtotal = mainController.getOrder().getTotalPrice();
+         subtotal = mainController.getOrder().getTotalPrice();
         //System.out.println("The price is "+ subTotal);
-        double tax = subtotal * 0.06625;
-        double totalPrice = subtotal + tax;
-        DecimalFormat decimalFormat = new DecimalFormat("###, ###, ##0.00");
-        salesTax.setText(decimalFormat.format(tax));
-        subTotal.setText(decimalFormat.format(subtotal));
-        total.setText(decimalFormat.format(totalPrice));
+        tax = subtotal * 0.06625;
+        totalPrice = subtotal + tax;
+        DecimalFormat df = new DecimalFormat("0.00"); //look at format
+        salesTax.setText(df.format(tax));
+        subTotal.setText(df.format(subtotal));
+        total.setText(df.format(totalPrice));
 
     }
-    //setMainController
-    //pass items from the order
-    //for list that goes through each item that goes through order array list and adds to observable list
-    //after adding to observable list do listview.setitems()
+
     public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
         mainController = controller;
         setText();
         for(int i =0; i< mainController.getOrder().getItem().size(); i++){
+            orderList = mainController.getOrder();
+            System.out.println("Only the order list in current order" + orderList);
                 listOfItem.add(mainController.getOrder().getItem().get(i).toString());
                 System.out.println(listOfItem);
         }
 
-
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       // for(int i =0; i< listOfItem.size(); i++) {
             orderListView.setItems(listOfItem);
 
-        //System.out.println("Orderlistview is"+ orderListView);
     }
-    /*
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-
-            System.out.println(orderList.getList());
-            System.out.println(addInsList.getList());
-
-            ObservableList<String> menuItems = FXCollections.observableArrayList(orderList.getList());
-            ObservableList<String> addInItems = FXCollections.observableArrayList(addInsList.getList());
-
-            for (int i = 0; i < orderList.getList().size(); i++) {
-                orderListView.setItems(menuItems);
-                orderListView.setItems(addInItems);
-            }
-        }
-
-        catch (NullPointerException e) {
-            errorAlert.setHeaderText("No items in your order");
-            errorAlert.setContentText("Please add items to your order.");
-            errorAlert.show();
-        }
-
-    }
-    */
     public void removeItem(MouseEvent mouseEvent) {
-        orderList.remove(orderListView.getSelectionModel().getSelectedItems());
+       // ObservableList<String> removeOrder = orderListView.getSelectionModel().getSelectedItems();
+        listOfItem.remove(orderListView.getSelectionModel().getSelectedItem());
+        //orderList.remove(orderListView.getSelectionModel().getSelectedItem());
+        //System.out.println(orderListView.getSelectionModel().getSelectedItem().getClass());
+        System.out.println("After removing from orderlist"+ orderList);
+        mainController.removeItem(orderListView.getSelectionModel().getSelectedItem());
+        //orderList.remove(removeOrder);
+        //listOfItem.remove(removeOrder);
+        orderListView.setItems(listOfItem);
+        salesTax.clear();
+        total.clear();
+        subTotal.clear();
+        totalPrice =0;
+        subtotal = 0;
+        tax=0;
     }
 
     public void placeOrder(MouseEvent mouseEvent) {
+        //System.out.println("When place order is triggered");
         mainController.placeOrder();
+        salesTax.clear();
+        total.clear();
+        subTotal.clear();
+        totalPrice =0;
+        subtotal = 0;
+        tax=0;
     }
 
-
-
-    //initialize method
-    //assign list view items in setMainController
-    //then call ListView in initialize
 
 }
