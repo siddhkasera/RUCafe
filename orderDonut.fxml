@@ -51,19 +51,19 @@
                   <Font name="Zilla Slab" size="30.0" />
                </font>
             </Text>
-            <TextField fx:id="subtotalField" editable="false" layoutX="387.0" layoutY="306.0" prefHeight="25.0" prefWidth="87.0" promptText="Sub-total" />
+            <TextField fx:id="subtotalField" editable="false" layoutX="387.0" layoutY="306.0"  prefHeight="25.0" prefWidth="87.0" promptText="Sub-total" />
             <Button contentDisplay="TOP" layoutX="487.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#orderDonut" text="Add to Order" />
             <ImageView fitHeight="267.0" fitWidth="311.0" layoutX="12.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imgs/donuts_image.jpg" />
                </image>
             </ImageView>
-            <ComboBox fx:id="donutType" layoutX="418.0" layoutY="78.0" prefHeight="25.0" prefWidth="112.0" promptText="Donut Type" />
-            <ListView fx:id="flavorsListView" layoutX="338.0" layoutY="119.0" prefHeight="164.0" prefWidth="103.0" />
-            <ListView fx:id="selectedFlavor" layoutX="517.0" layoutY="119.0" prefHeight="164.0" prefWidth="103.0" />
-            <ComboBox fx:id="quantity" layoutX="448.0" layoutY="139.0" prefHeight="25.0" prefWidth="62.0" promptText="Qty" />
-            <Button fx:id="forward" layoutX="462.0" layoutY="188.0" mnemonicParsing="false" text="&gt;&gt;" />
-            <Button fx:id="backward" layoutX="462.0" layoutY="229.0" mnemonicParsing="false" text="&lt;&lt;" />
+            <ComboBox fx:id="donutType" layoutX="418.0" layoutY="78.0" onAction="#typeAction" prefHeight="25.0" prefWidth="112.0" promptText="Donut Type" />
+             <ListView fx:id="flavorsListView" layoutX="338.0" layoutY="119.0" prefHeight="164.0" prefWidth="103.0" />
+            <ListView fx:id="selectedFlavorListView" layoutX="517.0" layoutY="119.0" prefHeight="164.0" prefWidth="103.0" />
+            <ComboBox fx:id="quantity" layoutX="448.0" layoutY="139.0" onAction="#qtyAction" prefHeight="25.0" prefWidth="62.0" promptText="Qty" />
+            <Button fx:id="forward" layoutX="462.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#addFlavorOnList" text="&gt;&gt;" />
+            <Button fx:id="backward" layoutX="462.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#removeFlavorOnList" text="&lt;&lt;" />
             <Label layoutX="329.0" layoutY="312.0" text="Sub-total" />
          </children>
     </AnchorPane>

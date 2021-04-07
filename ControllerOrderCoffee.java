@@ -28,7 +28,6 @@ public class ControllerOrderCoffee implements Initializable {
     protected ArrayList<MenuItem> coffeeOrderList = new ArrayList<MenuItem>();
     protected ArrayList<String> addIns = new ArrayList<String>();
 
-    protected Coffee coffee;
     protected Coffee coffeeOrder;
     protected int numOfAddin;
     protected double currentTotal = 0.00;
@@ -98,7 +97,6 @@ public class ControllerOrderCoffee implements Initializable {
             subtotalField.setText(df.format(currentTotal));
 
         }
-
     }
 
     public void qtyAction(ActionEvent actionEvent) {
@@ -112,7 +110,7 @@ public class ControllerOrderCoffee implements Initializable {
 
                     } else if (size.getValue().equals("Tall")) {
                         //System.out.println("Inside tall");
-                        currentTotal = tallPrice * i;
+                        currentTotal = tallPrice * i + addInCost;
                         subtotalField.setText(df.format(currentTotal));
 
                     } else if (size.getValue().equals("Grande")) {
@@ -134,6 +132,13 @@ public class ControllerOrderCoffee implements Initializable {
             System.out.println(e.getMessage());
             errorAlert.show();
         }
+
+        creamAddin.setDisable(false);
+        milkAddin.setDisable(false);
+        syrupAddin.setDisable(false);
+        caramelAddin.setDisable(false);
+        whippedCreamAddin.setDisable(false);
+
     }
 
     @Override
@@ -141,12 +146,20 @@ public class ControllerOrderCoffee implements Initializable {
         size.setItems(sizeList);
         quantity.setItems(qtyList);
 
+        creamAddin.setDisable(true);
+        milkAddin.setDisable(true);
+        syrupAddin.setDisable(true);
+        caramelAddin.setDisable(true);
+        whippedCreamAddin.setDisable(true);
+
+
         creamAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
             currentTotal += addInCost;
-            System.out.println("Current total in cream" + currentTotal);
+            System.out.println("Current total in cream " + currentTotal);
             subtotalField.setText(df.format(currentTotal));
 
         });
+
 
         //milk
         milkAddin.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> { //cream
@@ -238,7 +251,6 @@ public class ControllerOrderCoffee implements Initializable {
             System.out.println(e.getMessage());
             errorAlert.show();
         }
-
 
     }
 
