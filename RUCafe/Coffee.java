@@ -2,14 +2,14 @@ package RUCafe;
 
 import java.util.ArrayList;
 
+/**
+ * This class extends menuitem that encapsulates the datafields and method for a coffee order.
+ * @author Siddhi Kasera, Sonal Madhok
+ */
 public class Coffee extends MenuItem implements Customizable{
 
     private String size;
-    private String cream;
-    private String syrup;
-    private String milk;
-    private String caramel;
-    private String whippedCream;
+
     private double price;
     private int numAddOn;
     protected int qty;
@@ -18,43 +18,22 @@ public class Coffee extends MenuItem implements Customizable{
     private final double grandePrice = 2.99;
     private final double ventiPrice = 3.49;
     private final double addInCost = 0.20;
-    // private final double sizeCost = 0.50;
     private ArrayList<String> addInsList = new ArrayList<String>();
-    Addins addIn;
 
-    //public Coffee(String size, String cream, String syrup, String milk, String caramel, String whippedCream ){
 
     public Coffee() {
 
     }
 
-    public Coffee(String size, Addins addIn){
-        super();
-        this.size = size;
-        this.addIn = addIn;
-        //this.addInsList = addInsList;
-    }
-
-
-    public Coffee(String size, String cream, String syrup, String milk, String caramel, String whippedCream, int qty) {
-        super();
-        this.size = size;
-        this.cream = cream;
-        this.syrup = syrup;
-        this.milk = milk;
-        this.caramel = caramel;
-        this.whippedCream = whippedCream;
-        this.qty = qty;
-    }
-
-   /* public Coffee(int numAddOn){
-        this.numAddOn = numAddOn;
-    }
-
-    */
+    /**
+     * A four parameter coffee constructor.
+     * @param size of the coffee
+     * @param qty of the coffee ordered
+     * @param addInList list of add in list
+     * @param numAddOn total num of adds nos.
+     */
 
     public Coffee(String size, int qty, ArrayList<String> addInList, int numAddOn) {
-        //super("Coffee");
         super();
         this.size = size;
         this.qty = qty;
@@ -62,34 +41,37 @@ public class Coffee extends MenuItem implements Customizable{
         this.numAddOn = numAddOn;
     }
 
+    /**
+     * setter method to set the num of addons for a coffee.
+     * @param numAddOn num of add ins selected by the customer
+     */
     public void setNumAddOn(int numAddOn) {
         this.numAddOn = numAddOn;
     }
 
-    public int getNumAddOn(){
-        return numAddOn;
-    }
-
+    /**
+     * getter method to get the size of coffee.
+     * @return the size of the coffee selected.
+     */
     public String getSize(){
         return this.size;
     }
 
-    public ArrayList<String> getList(){
-        ArrayList<String> list = new ArrayList<>();
-
-        for (int i = 0; i < addInsList.size(); i++) {
-            list.add(addInsList.get(i));
-
-        }
-
-        return list;
+    /**
+     * getter method that returns the price of a coffee.
+     * @return
+     */
+    public double getprice(){
+        return price;
     }
 
 
+    /**
+     * Calculates the price of coffee
+     */
     public void itemPrice(){
 
         price = numAddOn * addInCost;
-        //System.out.println("Price in coffee is"+ price);
 
         if(size.equals("Short")){
             price = (price + shortPrice) * qty;// 1.99
@@ -106,13 +88,11 @@ public class Coffee extends MenuItem implements Customizable{
 
     }
 
-    public void setPrice(){
-        this.price = price;
-    }
-    public double getprice(){
-        return price;
-    }
-
+    /**
+     * Adds addins to a list for a coffee
+     * @param obj addIns
+     * @return true if the item is added
+     */
     @Override
     public boolean add(Object obj) {
         if (obj instanceof String){
@@ -121,7 +101,11 @@ public class Coffee extends MenuItem implements Customizable{
         }
         return true;
     }
-
+    /**
+     * removes addins to a list for a coffee
+     * @param obj addIns
+     * @return true if the item is removed
+     */
     @Override
     public boolean remove(Object obj) {
         if (obj instanceof String){
@@ -131,8 +115,13 @@ public class Coffee extends MenuItem implements Customizable{
         return true;
     }
 
+    /**
+     * Returns a string representation of this coffee order
+     * @return string representation of this coffee order
+     */
     @Override
     public String toString(){
-      return (  this.size + this.qty + this.addInsList);
+      return (  "Size "+ this.size +  "\n " +
+               " Quantity " +  this.qty + "\n " + " addins "+this.addInsList);
     }
 }

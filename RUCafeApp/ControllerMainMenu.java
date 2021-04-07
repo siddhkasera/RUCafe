@@ -1,12 +1,9 @@
 package RUCafeApp;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import RUCafe.Order;
 import RUCafe.MenuItem;
@@ -14,10 +11,9 @@ import java.util.ArrayList;
 import RUCafe.Coffee;
 import RUCafe.Donut;
 import RUCafe.StoreOrders;
-import javax.imageio.IIOParam;
 
 /**
- * This class processes the GUI from the payroll_processing_gui.fxml in order to
+ * This class processes the GUI from the mainMenu.fxml in order to
  * manage different operations on GUI
  *
  * @author Siddhi Kasera, Sonal Madhok
@@ -33,14 +29,20 @@ public class ControllerMainMenu {
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     Stage stage = new Stage();
 
+    /**
+     * Constructor for the class to assign order and store orders.
+     */
     public ControllerMainMenu(){
         this.allOrders = new StoreOrders();
         this.order = new Order(new ArrayList<>());
     }
 
+    /**
+     * adds the menuitems to the main order object
+     * @param menuItems to be added
+     */
     public void addMainOrder(Order menuItems){
         for(MenuItem item: menuItems.getItems()){
-            System.out.println("The item in add mainorder method is "+ item);
             order.add(item);
             if(item instanceof Coffee){
                 price = price +  ((Coffee) item).getprice();
@@ -49,33 +51,51 @@ public class ControllerMainMenu {
                 price = price + ((Donut) item).getPrice();
             }
             order.setTotalPrice(price);
-            System.out.println("printing the order" + order);
         }
 
     }
 
+    /**
+     * removes items from the main object
+     * @param menuItem to be removed
+     */
     public void removeItemOrder(MenuItem menuItem){
         for(int i =0; i<order.getItems().size();i++){
-            System.out.println("Order in removeitem in main " + order.getItems().toString());
             if(order.equals(menuItem)){
-                System.out.println("If equals come in here");
                 order.remove(menuItem);
             }
         }
     }
+
+    /**
+     * returns the main order
+     * @return order object
+     */
     public Order getOrder(){
         return order;
     }
 
+    /**
+     * returns the main store order
+     * @return store order object
+     */
     public StoreOrders getStoreOrder(){
         return allOrders;
     }
+
+    /**
+     * place order helper method
+     */
     public void placeOrder(){
         allOrders.add(order);
         order.setIncrement();
         this.order = new Order(new ArrayList<>());
     }
 
+    /**
+     * loads the customer order page
+     * @param mouseEvent action that invokes the function.
+     */
     public void customerOrderPage(MouseEvent mouseEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("currentOrder.fxml"));
@@ -90,11 +110,13 @@ public class ControllerMainMenu {
         catch (Exception e){
             errorAlert.setHeaderText("Error");
             errorAlert.setContentText("Your order page cannot load. Try again.");
-            System.out.println(e.getLocalizedMessage());
             errorAlert.show();
         }
     }
-
+    /**
+     * loads the store  order page
+     * @param mouseEvent action that invokes the function.
+     */
     public void storeOrdersPage(MouseEvent mouseEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("storeOrders.fxml"));
@@ -106,11 +128,14 @@ public class ControllerMainMenu {
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
-            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Store orders page cannot load. Try again.");
             errorAlert.show();
         }
     }
+    /**
+     * loads the coffee order page
+     * @param mouseEvent action that invokes the function.
+     */
 
     public void orderCoffeePage(MouseEvent mouseEvent) {
         try {
@@ -123,12 +148,14 @@ public class ControllerMainMenu {
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
-            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Order Coffees page cannot load. Try again.");
             errorAlert.show();
         }
     }
-
+    /**
+     * loads the donut order page
+     * @param mouseEvent action that invokes the function.
+     */
     public void orderDonutPage(MouseEvent mouseEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("orderDonut.fxml"));
@@ -141,17 +168,11 @@ public class ControllerMainMenu {
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
-            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Order Donuts page cannot load. Try again.");
             errorAlert.show();
         }
 
     }
-
-
-
-
-
 
 
 }
