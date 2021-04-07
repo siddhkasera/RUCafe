@@ -8,10 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -26,10 +23,6 @@ import java.util.ResourceBundle;
  **/
 public class ControllerOrderDonut implements Initializable {
 
-    //display the subtotal dynamically
-
-    //add listeners for each button and adding the price into the subtotal
-
     protected Order addToOrder;
     protected Donut donut;
     protected static ControllerMainMenu mainController;
@@ -40,10 +33,10 @@ public class ControllerOrderDonut implements Initializable {
     private ArrayList<Integer> quantityList = new ArrayList<Integer>();
 
 
-
     DecimalFormat df = new DecimalFormat("0.00"); //look at format
 
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
 
     @FXML
     private ComboBox<String> donutType;
@@ -63,26 +56,20 @@ public class ControllerOrderDonut implements Initializable {
 
     @FXML
     protected ListView<String> selectedFlavorListView = new ListView<>(selectedFlavor);
-
     @FXML
     private TextField subtotalField;
-
     @FXML
     private ComboBox<Integer> quantity;
-
-    private int selectedFlavorCounter;
-
     protected ControllerMainMenu controllerMainMenu;
-
     ArrayList<MenuItem> donutOrdered = new ArrayList<>();
 
+    @FXML
+    private Button addOrderButton;
 
 
     public void setDonutMainMenu(ControllerMainMenu controller) {
         controllerMainMenu = controller;
     }
-
-
 
     public void typeAction(ActionEvent actionEvent) {
 
@@ -139,74 +126,42 @@ public class ControllerOrderDonut implements Initializable {
         donutType.setItems(donutTypeList);
         quantity.setItems(qtyList);
         flavorsListView.setItems(flavors);
-
     }
-
-    public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
-        //when setting a donut order, needing the instance to go into main controller
-        mainController = controller;
-    }
-
-    /*
-    public int getNumOfSelectedFlavors(ListView<String> list) {
-
-        for (int i = 0; selectedFlavor.size(); i++)
-
-        return i;
-    }
-
-     */
 
     //set number for the donut
     public void orderDonut(MouseEvent mouseEvent) {
 
-       // for (int i = 0; i < selectedFlavor.size(); i++) {
-          //Donut donutOrder = new Donut(donutType.getValue(), selectedFlavor.get(i), quantityList);
-          Order order = new Order(donutOrdered);
-          System.out.println(donutOrdered.toString());
-          System.out.println(order.toString());
-          controllerMainMenu.addMainOrder(order);
-      //  }
+        if (!selectedFlavor.isEmpty()) {
+            Order order = new Order(donutOrdered);
+            System.out.println(donutOrdered.toString());
+            System.out.println(order.toString());
+            controllerMainMenu.addMainOrder(order);
+        }
+
+        else {
+            infoAlert.setHeaderText("Order Unsuccessful");
+            infoAlert.setContentText("Please add your selected flavor to the next list view.");
+        }
 
     }
 
-
     public void addFlavorOnList(MouseEvent mouseEvent) {
         selectedFlavor.add(flavorsListView.getSelectionModel().getSelectedItem());
-
         Donut donutOrder = new Donut(donutType.getValue(), flavorsListView.getSelectionModel().getSelectedItem(), quantityList);
         donutOrdered.add(donutOrder);
+        donutOrder.itemPrice();
+
         quantityList.add(quantity.getValue());
         donutOrder.add(quantity.getValue()); //this will keep track of the quantity that each donut had in the order adds it to the list
-
         selectedFlavorListView.setItems(selectedFlavor);
-
         System.out.println(quantityList);
         System.out.println();
-
-
-
-
-
-
-
-        //donut.setQuantity(quantity.getValue());
-        //selectedFlavorCounter++; //has the number of the order in selected flavor with the correct quantity
-
-        //quantityInOrder.add(quantity.getValue());
-        //System.out.println(quantityInOrder);
-
-
-        //adjust the subtotal in here
-
     }
 
     public void removeFlavorOnList(MouseEvent mouseEvent) {
         selectedFlavor.remove(selectedFlavorListView.getSelectionModel().getSelectedItem());
-
-       // selectedFlavorListView.getCellFactory()
-      //  quantityInOrder.remove(selectedFlavorCounter);
-
+        donutOrdered.remove(selectedFlavorListView.getSelectionModel().getSelectedItem());
+        //remove from maincontroller
         selectedFlavorListView.setItems(selectedFlavor);
 
     }

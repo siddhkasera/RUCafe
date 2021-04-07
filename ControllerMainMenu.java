@@ -28,17 +28,20 @@ public class ControllerMainMenu {
     private StoreOrders allOrders;
     protected double price= 0;
     protected int orderNumber = 0;
+    protected int NOT_FOUND = 0;
+
 
 
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     Stage stage = new Stage();
 
     public ControllerMainMenu(){
+        this.allOrders = new StoreOrders();
         this.order = new Order(new ArrayList<>());
     }
 
     public void addMainOrder(Order menuItems){
-        for(MenuItem item: menuItems.getItem()){
+        for(MenuItem item: menuItems.getItems()){
             System.out.println("The item in add mainorder method is "+ item);
             order.add(item);
             if(item instanceof Coffee){
@@ -53,10 +56,37 @@ public class ControllerMainMenu {
 
     }
 
+    public int findIndex(MenuItem menuItem) {
+
+        for(int i = 0; i < order.getItems().size(); i++) {
+            if (order.getItems().get(i).toString().equals(menuItem.toString())) {
+                 return i;
+            }
+
+            System.out.println(order.getItems().get(i).toString());
+            System.out.println(menuItem.toString());
+        }
+        return NOT_FOUND; //0
+    }
+
+    public void removeItemOrder(MenuItem menuItem){
+        int index = findIndex(menuItem);
+        System.out.println("removeitemorder:" + index);
+
+        for (int i = index; i < order.getItems().size(); i++) {
+            System.out.println("removeitemorder inside of for loop:" + menuItem.toString() + menuItem);
+            order.remove(menuItem);
+        }
+
+    }
     public Order getOrder(){
+        System.out.println(order.toString());
         return order;
     }
 
+    public StoreOrders getStoreOrder(){
+        return allOrders;
+    }
     public void placeOrder(){
         allOrders.add(order);
         order.setIncrement();
@@ -69,7 +99,7 @@ public class ControllerMainMenu {
             stage.setTitle("Your Order");
             stage.setScene(new Scene(loader.load(), 650, 420));
             stage.show();
-            ControllerCurrentOrder currentOrder =loader.getController();
+            ControllerCurrentOrder currentOrder = loader.getController();
             currentOrder.setMainController(this);
 
 
@@ -134,11 +164,4 @@ public class ControllerMainMenu {
         }
 
     }
-
-
-
-
-
-
-
 }
