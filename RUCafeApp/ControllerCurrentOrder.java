@@ -85,7 +85,7 @@ public class ControllerCurrentOrder implements Initializable{
         //orderList.remove(orderListView.getSelectionModel().getSelectedItem());
         //System.out.println(orderListView.getSelectionModel().getSelectedItem().getClass());
         System.out.println("After removing from orderlist"+ orderList);
-        mainController.removeItem(orderListView.getSelectionModel().getSelectedItem());
+       // mainController.removeItem(orderListView.getSelectionModel().getSelectedItem());
         //orderList.remove(removeOrder);
         //listOfItem.remove(removeOrder);
         orderListView.setItems(listOfItem);

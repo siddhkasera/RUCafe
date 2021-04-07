@@ -34,6 +34,7 @@ public class ControllerMainMenu {
     Stage stage = new Stage();
 
     public ControllerMainMenu(){
+        this.allOrders = new StoreOrders();
         this.order = new Order(new ArrayList<>());
     }
 
@@ -41,12 +42,12 @@ public class ControllerMainMenu {
         for(MenuItem item: menuItems.getItem()){
             System.out.println("The item in add mainorder method is "+ item);
             order.add(item);
-           if(item instanceof Coffee){
-              price = price +  ((Coffee) item).getprice();
+            if(item instanceof Coffee){
+                price = price +  ((Coffee) item).getprice();
             }
-           if(item instanceof Donut){
-               price = price + ((Donut) item).getPrice();
-           }
+            if(item instanceof Donut){
+                price = price + ((Donut) item).getPrice();
+            }
             order.setTotalPrice(price);
             System.out.println("printing the order" + order);
         }
@@ -57,6 +58,9 @@ public class ControllerMainMenu {
         return order;
     }
 
+    public StoreOrders getStoreOrder(){
+        return allOrders;
+    }
     public void placeOrder(){
         allOrders.add(order);
         order.setIncrement();
@@ -122,15 +126,13 @@ public class ControllerMainMenu {
             stage.setTitle("Order Donut");
             stage.setScene(new Scene(loader.load(),650, 420));
             stage.show();
-
-            //ControllerOrderDonut donutController = loader.getController();
-            //donutController.setMainController(this);
-
-
+            ControllerOrderDonut donutController = loader.getController();
+            donutController.setDonutMainMenu(this);
 
         }
         catch (Exception e){
             errorAlert.setHeaderText("Error");
+            System.out.println(e.getLocalizedMessage());
             errorAlert.setContentText("Order Donuts page cannot load. Try again.");
             errorAlert.show();
         }

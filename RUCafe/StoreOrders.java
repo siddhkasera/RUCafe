@@ -2,11 +2,14 @@ package RUCafe;
 import java.util.ArrayList;
 public class StoreOrders implements Customizable{
 
-   // private Order[] orderList; //order list..not sure if it is suppose to be a order object.
 
-    ArrayList<Order> listOfOrders = new ArrayList<Order>();
+    ArrayList<Order> listOfOrders;
 
-    //Store  --> 10001, 10002, 10004
+    public StoreOrders(){
+    listOfOrders = new ArrayList<Order>();
+
+    }
+
     @Override
     public boolean add(Object obj) {
         if(obj instanceof Order){
@@ -16,6 +19,10 @@ public class StoreOrders implements Customizable{
         return false;
     }
 
+    public ArrayList<Order> getListOfOrders(){
+        return this.listOfOrders;
+    }
+
     @Override
     public boolean remove(Object obj) {
         if(obj instanceof Order){
@@ -23,5 +30,9 @@ public class StoreOrders implements Customizable{
             return true;
         }
         return false;
+    }
+    @Override
+    public String toString(){
+        return this.listOfOrders.toString();
     }
 }
