@@ -45,7 +45,7 @@ public class ControllerMainMenu {
         for(MenuItem item: menuItems.getItems()){
             order.add(item);
             if(item instanceof Coffee){
-                price = price +  ((Coffee) item).getprice();
+                price = price +  ((Coffee) item).getCoffeePrice();
             }
             if(item instanceof Donut){
                 price = price + ((Donut) item).getPrice();
