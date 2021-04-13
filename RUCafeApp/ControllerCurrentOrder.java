@@ -2,6 +2,7 @@ package RUCafeApp;
 
 import RUCafe.MenuItem;
 import RUCafe.Order;
+import RUCafe.Coffee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  *
  * @author Siddhi Kasera, Sonal Madhok
  **/
-public class ControllerCurrentOrder implements Initializable{
+public class ControllerCurrentOrder implements Initializable {
 
     ArrayList<MenuItem> newList = new ArrayList<MenuItem>(); //remove this later...added only to avoid momentary error
     Order orderList = new Order(newList);
@@ -30,10 +31,13 @@ public class ControllerCurrentOrder implements Initializable{
     private double subtotal;
     private double tax;
     private final double taxRate = 0.06625;
+    private double newPrice;
+    private double newSalesTax;
+    private double newTotal;
 
     protected ControllerMainMenu mainController;
     private ObservableList<String> listOfItem = FXCollections.observableArrayList();
-
+    protected ObservableList<String> emptyList = FXCollections.observableArrayList();
     @FXML
     private TextField subTotal;
 
@@ -49,7 +53,7 @@ public class ControllerCurrentOrder implements Initializable{
     /**
      * sets text to the text fields on the GUI
      */
-    private void setText(){
+    private void setTextPrice() {
         subtotal = mainController.getOrder().getTotalPrice();
         tax = subtotal * taxRate;
         totalPrice = subtotal + tax;
@@ -62,52 +66,67 @@ public class ControllerCurrentOrder implements Initializable{
 
     /**
      * sets a reference to main controller
+     *
      * @param controller reference
      */
-    public void setMainController(ControllerMainMenu controller){ //gets pointer to maincontroller in here
+    public void setMainController(ControllerMainMenu controller) { //gets pointer to maincontroller in here
         mainController = controller;
-        setText();
-        for(int i =0; i< mainController.getOrder().getItems().size(); i++){
+        setTextPrice();
+        for (int i = 0; i < mainController.getOrder().getItems().size(); i++) {
             orderList = mainController.getOrder();
-                listOfItem.add(mainController.getOrder().getItems().get(i).toString());
-                newList.add(mainController.getOrder().getItems().get(i));
+            listOfItem.add(mainController.getOrder().getItems().get(i).toString());
+            newList.add(mainController.getOrder().getItems().get(i));
         }
+        setTextPrice();
+        //setText();
 
     }
 
     /**
      * intializes a list view on GUI
-     * @param location location of fxml file.
+     *
+     * @param location  location of fxml file.
      * @param resources accesses data
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-            orderListView.setItems(listOfItem);
+        orderListView.setItems(listOfItem);
 
     }
 
     /**
      * removes item from lists
+     *
      * @param mouseEvent action on which method is called.
      */
+
     public void removeItem(MouseEvent mouseEvent) {
-        listOfItem.remove(orderListView.getSelectionModel().getSelectedItem()); //removing the observable list
-        for(int i =0; i< newList.size();i++) {
+        DecimalFormat df = new DecimalFormat("0.00"); //look at format
+        System.out.println("In the remove Item function in current order");
+        double itemPrice = 0;
+        for(int i = 0; i< newList.size();i++) {
             if(newList.get(i).toString().equals(orderListView.getSelectionModel().getSelectedItem())) {
-                mainController.removeItemOrder(newList.get(i));
+               mainController.removeItemOrder(newList.get(i));
+               if(newList.get(i) instanceof Coffee) {
+                   itemPrice = ((Coffee) newList.get(i)).getCoffeePrice();
+               }
             }
         }
+        listOfItem.remove(orderListView.getSelectionModel().getSelectedItem());
         orderListView.setItems(listOfItem);
-        salesTax.clear();
-        total.clear();
-        subTotal.clear();
-        totalPrice =0;
-        subtotal = 0;
-        tax=0;
+        newPrice = Double.parseDouble(subTotal.getText()) - itemPrice;
+        subTotal.setText(df.format(newPrice));
+        newSalesTax = newPrice * taxRate;
+        salesTax.setText(df.format(newSalesTax));
+        newTotal = newPrice + newSalesTax;
+        total.setText(df.format(newTotal));
+        //total = 0;
+
     }
 
     /**
      * places order the user selected
+     *
      * @param mouseEvent action that triggers the function.
      */
     public void placeOrder(MouseEvent mouseEvent) {
@@ -118,12 +137,16 @@ public class ControllerCurrentOrder implements Initializable{
         a.show();
 
         mainController.placeOrder();
+        setTextPrice();
+        //mainController.removeItemOrder(ne;
+        newList.clear();
+        orderListView.setItems(emptyList);
         salesTax.clear();
         total.clear();
         subTotal.clear();
-        totalPrice =0;
+        totalPrice = 0;
         subtotal = 0;
-        tax=0;
+        tax = 0;
     }
 
 
