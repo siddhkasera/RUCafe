@@ -44,7 +44,9 @@ public class Donut extends MenuItem implements Customizable{
             price = donutHolePrice * quantity;
         }
     }
-
+    public double getDonutPrice(){
+        return price;
+    }
     /**
      * Adds the quantity of donuts in a list
      * @param obj to be added in the list

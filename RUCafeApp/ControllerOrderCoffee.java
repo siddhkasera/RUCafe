@@ -250,6 +250,8 @@ public class ControllerOrderCoffee implements Initializable {
 
             coffeeOrder.setNumAddOn(numaddOns);
             coffeeOrder.itemPrice();
+            double price1 = coffeeOrder.getCoffeePrice();
+            System.out.println("Price of the coffee added "+  price1);
             ArrayList<MenuItem> coffeeOrdered = new ArrayList<>();
             coffeeOrdered.add(coffeeOrder);
             Order order = new Order(coffeeOrdered);

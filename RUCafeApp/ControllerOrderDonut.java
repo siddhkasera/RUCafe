@@ -67,6 +67,8 @@ public class ControllerOrderDonut implements Initializable {
     protected ControllerMainMenu controllerMainMenu;
 
     ArrayList<MenuItem> donutOrdered = new ArrayList<>();
+    Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+
 
     /**
      * reference for main controller
@@ -152,8 +154,18 @@ public class ControllerOrderDonut implements Initializable {
      * @param mouseEvent that calls the function.
      */
     public void orderDonut(MouseEvent mouseEvent) {
-        Order order = new Order(donutOrdered);
-        controllerMainMenu.addMainOrder(order);
+
+        if (!selectedFlavor.isEmpty()) {
+            Order order = new Order(donutOrdered);
+            //System.out.println(donutOrdered.toString());
+            //System.out.println(order.toString());
+            controllerMainMenu.addMainOrder(order);
+        }
+
+        else {
+            infoAlert.setHeaderText("Order Unsuccessful");
+            infoAlert.setContentText("Please add your selected flavor to the next list view.");
+        }
 
     }
 
@@ -163,17 +175,16 @@ public class ControllerOrderDonut implements Initializable {
      */
     public void addFlavorOnList(MouseEvent mouseEvent) {
         selectedFlavor.add(flavorsListView.getSelectionModel().getSelectedItem());
-
         Donut donutOrder = new Donut(donutType.getValue(), flavorsListView.getSelectionModel().getSelectedItem(), quantityList);
         donutOrdered.add(donutOrder);
+        donutOrder.itemPrice();
+        System.out.println("Donut price " + donutOrder.getDonutPrice());
         quantityList.add(quantity.getValue());
         donutOrder.add(quantity.getValue()); //this will keep track of the quantity that each donut had in the order adds it to the list
-
         selectedFlavorListView.setItems(selectedFlavor);
-
-
+        //System.out.println(quantityList);
+        //System.out.println();
     }
-
     /**
      * removes the flavors
      * @param mouseEvent that calls the function.

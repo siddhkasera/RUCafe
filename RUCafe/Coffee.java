@@ -61,7 +61,7 @@ public class Coffee extends MenuItem implements Customizable{
      * getter method that returns the price of a coffee.
      * @return
      */
-    public double getprice(){
+    public double getCoffeePrice(){
         return price;
     }
 
@@ -76,18 +76,18 @@ public class Coffee extends MenuItem implements Customizable{
         if(size.equals("Short")){
             price = (price + shortPrice) * qty;// 1.99
         }else if(size.equals("Tall")){
-            //System.out.println("Inside tall");
             price = (price + tallPrice) * qty;
         }else if(size.equals("Grande")){
            price = (price + grandePrice) * qty;
         }else if(size.equals("Venti")){
             price = (price + ventiPrice) * qty;
         }
-        System.out.println("Price in coffee is"+ price);
-
 
     }
 
+    public void setPrice(double price){
+        this.price = price;
+    }
     /**
      * Adds addins to a list for a coffee
      * @param obj addIns

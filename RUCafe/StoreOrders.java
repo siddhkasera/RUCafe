@@ -1,8 +1,8 @@
 package RUCafe;
 import java.util.ArrayList;
-
 /**
  * Encapsulates the data fields and methods for store orders
+ * @author Siddhi Kasera and Sonal Madhok
  */
 public class StoreOrders implements Customizable{
 
