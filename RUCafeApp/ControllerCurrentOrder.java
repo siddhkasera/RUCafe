@@ -54,13 +54,17 @@ public class ControllerCurrentOrder implements Initializable {
      * sets text to the text fields on the GUI
      */
     private void setTextPrice() {
+        //System.out.println("In set text price subtotal, tax and total price" + subtotal +" " + tax +" "+ totalPrice);
         subtotal = mainController.getOrder().getTotalPrice();
+       // System.out.println("subtotal from the maincontroller " + subtotal );
         tax = subtotal * taxRate;
         totalPrice = subtotal + tax;
         DecimalFormat df = new DecimalFormat("0.00"); //look at format
         salesTax.setText(df.format(tax));
         subTotal.setText(df.format(subtotal));
         total.setText(df.format(totalPrice));
+        //System.out.println("In set text price  2 subtotal, tax and total price" + subtotal +" " + tax +" "+ totalPrice);
+
 
     }
 
@@ -77,7 +81,7 @@ public class ControllerCurrentOrder implements Initializable {
             listOfItem.add(mainController.getOrder().getItems().get(i).toString());
             newList.add(mainController.getOrder().getItems().get(i));
         }
-        setTextPrice();
+       // setTextPrice();
         //setText();
 
     }
@@ -106,6 +110,7 @@ public class ControllerCurrentOrder implements Initializable {
         double itemPrice = 0;
         for(int i = 0; i< newList.size();i++) {
             if(newList.get(i).toString().equals(orderListView.getSelectionModel().getSelectedItem())) {
+                System.out.println("The item to be deleted is " + newList.get(i).toString());
                mainController.removeItemOrder(newList.get(i));
                if(newList.get(i) instanceof Coffee) {
                    itemPrice = ((Coffee) newList.get(i)).getCoffeePrice();
@@ -137,7 +142,7 @@ public class ControllerCurrentOrder implements Initializable {
         a.show();
 
         mainController.placeOrder();
-        setTextPrice();
+        //setTextPrice();
         //mainController.removeItemOrder(ne;
         newList.clear();
         orderListView.setItems(emptyList);
@@ -147,6 +152,7 @@ public class ControllerCurrentOrder implements Initializable {
         totalPrice = 0;
         subtotal = 0;
         tax = 0;
+        //System.out.println("Total price" + totalPrice + "subTotal" + subtotal + "totalPrice" + totalPrice);
     }
 
 

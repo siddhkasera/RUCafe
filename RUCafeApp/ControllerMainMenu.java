@@ -23,7 +23,8 @@ public class ControllerMainMenu {
     private Order order;
     private StoreOrders allOrders;
     protected double price= 0;
-    protected int orderNumber = 0;
+    //protected int orderNumber = 0;
+    protected int NOT_FOUND = 0;
 
 
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -59,12 +60,48 @@ public class ControllerMainMenu {
      * removes items from the main object
      * @param menuItem to be removed
      */
+
     public void removeItemOrder(MenuItem menuItem){
-        for(int i =0; i<order.getItems().size();i++){
-            if(order.equals(menuItem)){
-                order.remove(menuItem);
+        int index = findIndex(menuItem);
+
+        for (int i = index; i < order.getItems().size(); i++) {
+            order.remove(menuItem);
+
+            if(menuItem instanceof Coffee){
+                price = price -  ((Coffee) menuItem).getCoffeePrice();
+            }
+            if(menuItem instanceof Donut){
+                price = price - ((Donut) menuItem).getPrice();
+            }
+            order.setTotalPrice(price);
+        }
+        System.out.println("Order after removing " + order);
+    }
+
+    public void removeOrder(Order order){
+        int index = findOrderIndex(order);
+        for(int i =index; i < allOrders.getListOfOrders().size();i++){
+            allOrders.remove(order);
+        }
+
+    }
+    public int findOrderIndex(Order order){
+
+        for(int i = 0; i< allOrders.getListOfOrders().size();i++){
+            if(allOrders.getListOfOrders().get(i).toString().equals(order.toString())){
+                return i;
             }
         }
+        return NOT_FOUND;
+    }
+    public int findIndex(MenuItem menuItem) {
+
+        for(int i = 0; i < order.getItems().size(); i++) {
+            if (order.getItems().get(i).toString().equals(menuItem.toString())) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
     }
 
     /**
@@ -87,9 +124,16 @@ public class ControllerMainMenu {
      * place order helper method
      */
     public void placeOrder(){
-        allOrders.add(order);
         order.setIncrement();
+        allOrders.add(order);
+        //removeOrder(order);
+        //System.out.println("After removing order" + order);
         this.order = new Order(new ArrayList<>());
+        //order.setTotalPrice(0);
+        price = 0;
+        //System.out.println("After removing order" + order);
+
+
     }
 
     /**
