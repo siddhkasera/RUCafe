@@ -1,63 +1,105 @@
 package RUCafe;
 
-import javafx.scene.control.Menu;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * Encapsulates the data fields and methods for order class.
+ * @author Siddhi Kasera and Sonal Madhok
+ */
 public class Order implements Customizable {
-    //private final Object items;
     protected static int orderCount = 1;
     private int orderNumber;
-    protected static String orderNum;
     private double totalPrice;
-    private MenuItem item;
-    private Coffee coffee;
-    ArrayList<MenuItem> orderlist = new ArrayList<MenuItem>();  //list -->list should be an instance of object order.
 
+    private ArrayList<MenuItem> orderlist;
 
-    public Order(MenuItem item) {
-        this.item = item;
-    }
-
-    public Order() {
-
-    }
-    /* public Order (Coffee coffee) {
-        this.coffee = coffee;
-    }
-
+    /**
+     * One parameter constructor for order.
+     *
+     * @param orderlist of menuitems
      */
-
-    /*public Order(ArrayList<MenuItem> orderList){
-        this.orderlist = orderList;
+    public Order(ArrayList<MenuItem> orderlist) {
+        this.orderlist = orderlist;
         this.orderNumber = orderCount;
         this.totalPrice = 0;
     }
 
+    /**
+     * increments the order number.
      */
-
-    public void setIncrement() {
+    public static void setIncrement() {
         orderCount++;
     }
 
-    public int getOrderNumber() {
-        return this.orderCount;
+    /**
+     * retuen the order number
+     *
+     * @return order number
+     */
+    public static int getOrderCount() {
+        return orderCount;
     }
 
+
+    /**
+     * returns the total price for an order
+     *
+     * @return prive for an order
+     */
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    /**
+     * sets the total price of the total price
+     *
+     * @param totalPrice of the order
+     */
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    /**
+     * returns the order number for an order
+     *
+     * @return
+     */
     public static int getCounter() {
         return orderCount;
     }
 
-    public void setList(ArrayList<MenuItem> list){
+    /**
+     * Setter method to set the list for an order
+     *
+     * @param list of the order
+     */
+    public void setList(ArrayList<MenuItem> list) {
         this.orderlist = new ArrayList<MenuItem>(list);
     }
 
+    /**
+     * gets the item in the list.
+     *
+     * @return array list of items
+     */
+    public ArrayList<MenuItem> getItems() {
+        return orderlist;
+    }
 
-
+    /**
+     * adds the menu items to the order list.
+     *
+     * @param obj to be added in the list
+     * @return true if successfully added.
+     */
     @Override
     public boolean add(Object obj) {
-        if (obj instanceof MenuItem) {
+        if (obj instanceof Coffee || obj instanceof Donut) {
             orderlist.add((MenuItem) obj);
             //orderCount++;
             return true;
@@ -65,6 +107,12 @@ public class Order implements Customizable {
         return false;
     }
 
+    /**
+     * removes the menu items from the list
+     *
+     * @param obj to be removed
+     * @return true if successfully removed.
+     */
     @Override
     public boolean remove(Object obj) {
         if (obj instanceof MenuItem) {
@@ -75,16 +123,15 @@ public class Order implements Customizable {
         return false;
     }
 
-    public ArrayList<String> getList() {
-
-        //return new ArrayList<MenuItem>(this.orderlist);
-        ArrayList<String> list = new ArrayList<>();
-
-        for (int i = 0; i < orderlist.size(); i++) {
-            list.add(orderlist.get(i).getItem());
-        }
-
-        return list;
+    /**
+     * Returns the string representation of an order
+     *
+     * @return string
+     */
+    @Override
+    public String toString() {
+        return "This order contains" + "\n" + this.orderlist + "\n" + this.totalPrice + "\n" + this.orderNumber;
     }
+
 
 }
