@@ -3,6 +3,7 @@ package RUCafeApp;
 import RUCafe.MenuItem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import RUCafe.Order;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -27,7 +28,7 @@ public class ControllerStoreOrders implements Initializable {
     @FXML
     protected ComboBox<Integer> orderNumber;
 
-    ArrayList<MenuItem> newList = new ArrayList<MenuItem>(); //remove this later...added only to avoid momentary error
+    ArrayList<Order> newOrderList = new ArrayList<Order>(); //remove this later...added only to avoid momentary error
 
     @FXML
     private ListView<String> allOrders = new ListView<String>();
@@ -42,6 +43,7 @@ public class ControllerStoreOrders implements Initializable {
 
     protected ObservableList<Integer> orderNumberList = FXCollections.observableArrayList();
     private ObservableList<String> selectedOrder = FXCollections.observableArrayList();
+    private ObservableList<String> emptyList = FXCollections.observableArrayList();
 
     protected ControllerMainMenu mainController;
 
@@ -62,25 +64,45 @@ public class ControllerStoreOrders implements Initializable {
         mainController = controller;
 
         for(int i = 0; i< mainController.getStoreOrder().getListOfOrders().size(); i++){
-            orderNumberList.add(i+1);
-            newList.add(mainController.getStoreOrder().getListOfOrders().get(i).getItems().get(i));
+            orderNumberList.add(mainController.getStoreOrder().getListOfOrders().get(i).getOrderNumber());
+            newOrderList.add(mainController.getStoreOrder().getListOfOrders().get(i));
         }
+
 
     }
 
+    public int orderDetails(int orderNumber){
+
+        for(int i = 0; i< newOrderList.size(); i++){
+            if(newOrderList.get(i).getOrderNumber()== orderNumber){
+                selectedOrder.add(newOrderList.get(i).toString());
+                return i;
+            }
+        }
+        return 0;
+    }
     /**
      * shows the order on combo box
      * @param showOrder that calls the function.
      */
     public void showOrder(ActionEvent showOrder) {
+        System.out.println("Order Number List in show order " + orderNumberList);
+        int selectedNumber = 0;
         DecimalFormat df = new DecimalFormat("0.00"); //look at format
-        for(int i = 0; i < mainController.getStoreOrder().getListOfOrders().size(); i++){
-            if(orderNumber.getValue().equals(mainController.getStoreOrder().getListOfOrders().get(i).getOrderCount())){
-                selectedOrder.add(mainController.getStoreOrder().getListOfOrders().get(i).toString());
-                allOrders.setItems(selectedOrder);
-                totalAmt.setText(df.format(mainController.getStoreOrder().getListOfOrders().get(i).getTotalPrice()));
-            }
+        //if(orderNumberList.size() > 0) {
+        boolean isTrue = orderNumber.getValue() == null;
+        if(! isTrue){
+            selectedNumber = orderNumber.getValue();
+            selectedOrder = FXCollections.observableArrayList();
+            int index = orderDetails(selectedNumber);
+           // System.out.println("")
+            System.out.println("selected order " + selectedOrder.toString());
+            //System.out.println("\n");
+            allOrders.setItems(selectedOrder);
+
+            totalAmt.setText(df.format(newOrderList.get(index).getTotalPrice()));
         }
+
     }
 
     /**
@@ -93,18 +115,27 @@ public class ControllerStoreOrders implements Initializable {
         orderNumber.setItems(orderNumberList);
     }
 
-    public void cancelOrder(MouseEvent mouseEvent) {
-
-        for (int i = 0; i< newList.size();i++) {
-        if(newList.get(i).toString().equals(allOrders.getSelectionModel().getSelectedItem())) {
-            mainController.removeItemOrder(newList.get(i));
+    public void removeOrderNumber(int orderNumber){
+        for(int i =0; i< orderNumberList.size(); i++)
+        {
+            if(orderNumberList.get(i) == orderNumber){
+                orderNumberList.remove(i);
+            }
         }
     }
+    public void cancelOrder(MouseEvent mouseEvent) {
+
+        for (int i = 0; i< newOrderList.size();i++) {
+            if(newOrderList.get(i).toString().equals(allOrders.getSelectionModel().getSelectedItem())) {
+                removeOrderNumber(newOrderList.get(i).getOrderNumber());
+                orderNumber.setItems(orderNumberList);
+                mainController.removeOrder(newOrderList.get(i));
+                System.out.println("Order removed is " + newOrderList.get(i).toString());
+            }
+        }
         selectedOrder.remove(allOrders.getSelectionModel().getSelectedItem());
-
-        allOrders.setItems(selectedOrder);
-}
-
+        totalAmt.clear();
+    }
 
     public void exportOrders(MouseEvent mouseEvent) {
 

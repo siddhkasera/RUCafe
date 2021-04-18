@@ -25,6 +25,7 @@ public class ControllerMainMenu {
     protected double price= 0;
     //protected int orderNumber = 0;
     protected int NOT_FOUND = 0;
+    protected int orderCount;
 
 
     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -49,13 +50,13 @@ public class ControllerMainMenu {
                 price = price +  ((Coffee) item).getCoffeePrice();
             }
             if(item instanceof Donut){
-                System.out.println("Adding donut to the order");
+                //System.out.println("Adding donut to the order");
                 price = price + ((Donut) item).getDonutPrice();
-                System.out.println("Price of the donut added " + price);
+               // System.out.println("Price of the donut added " + price);
             }
             order.setTotalPrice(price);
         }
-        System.out.println("Order in the add main order " + order);
+       // System.out.println("Order in the add main order " + order);
 
     }
 
@@ -81,6 +82,23 @@ public class ControllerMainMenu {
         System.out.println("Order after removing " + order);
     }
 
+    public void removeOrder(Order order){
+        int index = findOrderIndex(order);
+        //for(int i = index; i < allOrders.getListOfOrders().size(); i++){
+
+        //}
+        allOrders.remove(order);
+
+
+    }
+    public int findOrderIndex(Order order){
+        for(int i =0; i < allOrders.getListOfOrders().size(); i++){
+            if(allOrders.getListOfOrders().get(i).getOrderNumber() == order.getOrderNumber()){
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
     public int findIndex(MenuItem menuItem) {
 
         for(int i = 0; i < order.getItems().size(); i++) {
@@ -112,15 +130,12 @@ public class ControllerMainMenu {
      */
     public void placeOrder(){
         order.setIncrement();
+        orderCount = order.getOrderCount();
+        order.setOrderCount(orderCount);
+        System.out.println("Order number added " + order.getOrderNumber());
         allOrders.add(order);
-        //removeOrder(order);
-        //System.out.println("After removing order" + order);
         this.order = new Order(new ArrayList<>());
-        //order.setTotalPrice(0);
         price = 0;
-        //System.out.println("After removing order" + order);
-
-
     }
 
     /**

@@ -107,11 +107,11 @@ public class ControllerCurrentOrder implements Initializable {
 
     public void removeItem(MouseEvent mouseEvent) {
         DecimalFormat df = new DecimalFormat("0.00"); //look at format
-        System.out.println("In the remove Item function in current order");
+        //System.out.println("In the remove Item function in current order");
         double itemPrice = 0;
         for(int i = 0; i< newList.size();i++) {
             if(newList.get(i).toString().equals(orderListView.getSelectionModel().getSelectedItem())) {
-                System.out.println("The item to be deleted is " + newList.get(i).toString());
+                //System.out.println("The item to be deleted is " + newList.get(i).toString());
                mainController.removeItemOrder(newList.get(i));
                if(newList.get(i) instanceof Coffee) {
                    itemPrice = ((Coffee) newList.get(i)).getCoffeePrice();
