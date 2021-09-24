@@ -1,6 +1,5 @@
-# CS213_Project4
+Designed a Cafe system with JAVA and FXML
 
-all done in master or sonalBranch
 
 1. Create Main Menu FXML 
 2. Create Ordering Donuts FXML
